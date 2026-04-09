@@ -1,0 +1,227 @@
+import React, { useState } from 'react';
+import { motion } from 'motion/react';
+import { CheckCircle2, Upload, Send, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { db, auth, handleFirestoreError, OperationType } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useFirebase } from '../components/FirebaseProvider';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+
+export default function Admissions() {
+  const { user } = useFirebase();
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    dob: '',
+    grade: '',
+    parentName: '',
+    parentEmail: '',
+    parentPhone: '',
+    address: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleGradeChange = (value: string) => {
+    setFormData({ ...formData, grade: value });
+  };
+
+  const handleLogin = async () => {
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+      toast.success('Logged in successfully');
+    } catch (error) {
+      toast.error('Failed to login');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    setIsSubmitting(true);
+    const path = 'applications';
+    try {
+      await addDoc(collection(db, path), {
+        studentName: `${formData.firstName} ${formData.lastName}`,
+        grade: formData.grade,
+        parentName: formData.parentName,
+        parentEmail: formData.parentEmail,
+        parentPhone: formData.parentPhone,
+        address: formData.address,
+        dob: formData.dob,
+        parentUid: user?.uid || 'anonymous',
+        status: 'Received',
+        submittedAt: serverTimestamp(),
+      });
+      setStep(3);
+      toast.success('Application submitted successfully!');
+    } catch (error) {
+      handleFirestoreError(error, OperationType.CREATE, path);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="py-20 px-4">
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">Admissions</h1>
+          <p className="text-slate-600">
+            Join our community of learners. Follow the steps below to apply for the upcoming academic year.
+          </p>
+        </motion.div>
+
+        {/* Steps Indicator */}
+        <div className="flex justify-between items-center mb-12 relative">
+          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -z-10" />
+          {[1, 2, 3].map((s) => (
+            <div
+              key={s}
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors ${
+                step >= s ? 'bg-primary text-white' : 'bg-slate-200 text-slate-500'
+              }`}
+            >
+              {step > s ? <CheckCircle2 size={20} /> : s}
+            </div>
+          ))}
+        </div>
+
+        {step === 1 && (
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+            <Card>
+              <CardHeader>
+                <CardTitle>Admission Requirements</CardTitle>
+                <CardDescription>Please ensure you have the following documents ready before applying.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <ul className="space-y-3">
+                  {[
+                    'Certified copy of Learner’s Birth Certificate',
+                    'Latest School Report',
+                    'Copy of Parent/Guardian ID',
+                    'Proof of Residence',
+                    'Immunization Record (Clinic Card)',
+                    'Transfer Letter (if applicable)'
+                  ].map((doc) => (
+                    <li key={doc} className="flex items-center gap-3 text-slate-700">
+                      <CheckCircle2 className="text-green-500" size={18} />
+                      {doc}
+                    </li>
+                  ))}
+                </ul>
+                <Button onClick={() => setStep(2)} className="w-full mt-6">
+                  Start Online Application
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {step === 2 && (
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+            <form onSubmit={handleSubmit}>
+              <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Student Information</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input id="firstName" required placeholder="Enter student's first name" value={formData.firstName} onChange={handleInputChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input id="lastName" required placeholder="Enter student's last name" value={formData.lastName} onChange={handleInputChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="dob">Date of Birth</Label>
+                    <Input id="dob" type="date" required value={formData.dob} onChange={handleInputChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="grade">Applying for Grade</Label>
+                    <Select required onValueChange={handleGradeChange} value={formData.grade}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Grade" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[1, 2, 3, 4, 5, 6, 7].map((g) => (
+                          <SelectItem key={g} value={`Grade ${g}`}>Grade {g}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Parent/Guardian Information</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="parentName">Full Name</Label>
+                    <Input id="parentName" required placeholder="Enter parent's full name" value={formData.parentName} onChange={handleInputChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="parentEmail">Email Address</Label>
+                    <Input id="parentEmail" type="email" required placeholder="email@example.com" value={formData.parentEmail} onChange={handleInputChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="parentPhone">Phone Number</Label>
+                    <Input id="parentPhone" type="tel" required placeholder="012 345 6789" value={formData.parentPhone} onChange={handleInputChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Physical Address</Label>
+                    <Input id="address" required placeholder="Enter home address" value={formData.address} onChange={handleInputChange} />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="flex gap-4">
+                <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
+                  Back
+                </Button>
+                <Button type="submit" disabled={isSubmitting} className="flex-1">
+                  {isSubmitting ? <><Loader2 className="mr-2 animate-spin" /> Submitting...</> : <><Send className="mr-2" size={18} /> Submit Application</>}
+                </Button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+
+        {step === 3 && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center bg-white p-12 rounded-3xl shadow-sm border border-slate-100"
+          >
+            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 size={48} />
+            </div>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Application Received!</h2>
+            <p className="text-slate-600 mb-8">
+              Thank you for applying to Sunshine Primary School. We have received your application and will review your documents and contact you shortly.
+            </p>
+            <Button asChild>
+              <a href="/">Return to Home</a>
+            </Button>
+          </motion.div>
+        )}
+      </div>
+    </div>
+  );
+}

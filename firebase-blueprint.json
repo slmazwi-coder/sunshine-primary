@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "Application": {
+      "title": "Admissions Application",
+      "description": "Student admission application details",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string", "description": "Full name of the student" },
+        "grade": { "type": "string", "description": "Grade applied for" },
+        "parentName": { "type": "string", "description": "Name of the parent/guardian" },
+        "parentEmail": { "type": "string", "format": "email", "description": "Contact email" },
+        "parentPhone": { "type": "string", "description": "Contact phone number" },
+        "status": { "type": "string", "enum": ["Received", "In Review", "Accepted", "Missing Docs", "Rejected"], "description": "Current status of the application" },
+        "submittedAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" },
+        "documents": { "type": "array", "description": "List of uploaded document URLs" }
+      },
+      "required": ["studentName", "grade", "parentName", "parentEmail", "status", "submittedAt"]
+    },
+    "Payment": {
+      "title": "Fee Payment",
+      "description": "Proof of payment for school fees",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string", "description": "Name of the student" },
+        "grade": { "type": "string", "description": "Grade of the student" },
+        "amount": { "type": "number", "description": "Amount paid in Rands" },
+        "date": { "type": "string", "format": "date", "description": "Date of payment" },
+        "status": { "type": "string", "enum": ["Pending", "Verified", "Rejected"], "description": "Verification status" },
+        "proofUrl": { "type": "string", "description": "URL to the proof of payment image/pdf" },
+        "submittedAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" }
+      },
+      "required": ["studentName", "amount", "status", "submittedAt"]
+    },
+    "Order": {
+      "title": "Shop Order",
+      "description": "Uniform shop order request",
+      "type": "object",
+      "properties": {
+        "parentName": { "type": "string", "description": "Name of the parent" },
+        "parentPhone": { "type": "string", "description": "Contact phone" },
+        "items": { "type": "array", "description": "List of items ordered" },
+        "total": { "type": "number", "description": "Total order amount" },
+        "status": { "type": "string", "enum": ["Pending", "Processing", "Ready", "Collected"], "description": "Order status" },
+        "submittedAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" }
+      },
+      "required": ["parentName", "items", "total", "status", "submittedAt"]
+    },
+    "User": {
+      "title": "User Profile",
+      "description": "User account details",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "parent"] },
+        "name": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Admissions applications"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Fee payment records"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Uniform shop orders"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and roles"
+    }
+  }
+}
