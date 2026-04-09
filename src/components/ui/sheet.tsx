@@ -11,14 +11,14 @@ function Sheet({ ...props }: SheetPrimitive.Root.Props) {
 
 function SheetTrigger({ asChild, children, ...props }: SheetPrimitive.Trigger.Props & { asChild?: boolean }) {
   if (asChild && React.isValidElement(children)) {
-    return <SheetPrimitive.Trigger data-slot="sheet-trigger" render={children} {...props} />
+    return <SheetPrimitive.Trigger data-slot="sheet-trigger" render={children} nativeButton={false} {...props} />
   }
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props}>{children}</SheetPrimitive.Trigger>
 }
 
 function SheetClose({ asChild, children, ...props }: SheetPrimitive.Close.Props & { asChild?: boolean }) {
   if (asChild && React.isValidElement(children)) {
-    return <SheetPrimitive.Close data-slot="sheet-close" render={children} {...props} />
+    return <SheetPrimitive.Close data-slot="sheet-close" render={children} nativeButton={false} {...props} />
   }
   return <SheetPrimitive.Close data-slot="sheet-close" {...props}>{children}</SheetPrimitive.Close>
 }
