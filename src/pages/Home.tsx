@@ -31,10 +31,10 @@ export default function Home() {
               Sunshine Primary School provides a nurturing and excellence-driven environment for learners from Grade 1 to Grade 7 in Matatiele.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="text-lg px-8">
+              <Button asChild size="lg" className="text-lg px-8" nativeButton={false}>
                 <Link to="/admissions">Apply Online <ArrowRight className="ml-2" size={20} /></Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-white/10 border-white/20 hover:bg-white/20 text-white">
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-white/10 border-white/20 hover:bg-white/20 text-white" nativeButton={false}>
                 <Link to="/contact">Visit Us</Link>
               </Button>
             </div>
@@ -123,7 +123,7 @@ export default function Home() {
           <p className="text-lg mb-10 opacity-90 max-w-2xl mx-auto text-slate-300">
             Admissions for the upcoming academic year are now open. Apply online today to secure a place for your child.
           </p>
-          <Button asChild size="lg" className="text-lg px-10">
+          <Button asChild size="lg" className="text-lg px-10" nativeButton={false}>
             <Link to="/admissions">Start Application</Link>
           </Button>
         </div>

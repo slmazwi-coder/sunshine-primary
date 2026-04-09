@@ -216,7 +216,7 @@ export default function Admissions() {
             <p className="text-slate-600 mb-8">
               Thank you for applying to Sunshine Primary School. We have received your application and will review your documents and contact you shortly.
             </p>
-            <Button asChild>
+            <Button asChild nativeButton={false}>
               <a href="/">Return to Home</a>
             </Button>
           </motion.div>

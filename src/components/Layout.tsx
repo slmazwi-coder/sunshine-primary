@@ -70,16 +70,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.href) ? 'text-primary' : 'text-muted-foreground'
+                className={`text-sm font-semibold transition-all hover:text-primary relative py-2 ${
+                  isActive(link.href) ? 'text-primary' : 'text-slate-600'
                 }`}
               >
                 {link.name}
+                {isActive(link.href) && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full" />
+                )}
               </Link>
             ))}
             
@@ -102,7 +105,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   {isAdmin && (
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem asChild nativeButton={false}>
                       <Link to="/admin">Admin Dashboard</Link>
                     </DropdownMenuItem>
                   )}
@@ -113,7 +116,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild variant="default" size="sm" className="ml-4">
+              <Button asChild variant="default" size="sm" className="ml-4" nativeButton={false}>
                 <Link to="/admissions">Apply Now</Link>
               </Button>
             )}
@@ -122,7 +125,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Mobile Nav */}
           <div className="lg:hidden flex items-center gap-2">
             {user && isAdmin && (
-               <Button asChild variant="outline" size="sm" className="mr-2">
+               <Button asChild variant="outline" size="sm" className="mr-2" nativeButton={false}>
                 <Link to="/admin">Portal</Link>
               </Button>
             )}
@@ -151,21 +154,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       key={link.href}
                       to={link.href}
                       onClick={() => setIsOpen(false)}
-                      className={`text-lg font-semibold ${
-                        isActive(link.href) ? 'text-primary' : 'text-muted-foreground'
+                      className={`text-lg font-bold px-4 py-3 rounded-xl transition-all ${
+                        isActive(link.href) 
+                          ? 'bg-primary/10 text-primary' 
+                          : 'text-slate-600 hover:bg-slate-50'
                       }`}
                     >
                       {link.name}
                     </Link>
                   ))}
                   {!user ? (
-                    <Button asChild className="mt-4 w-full">
+                    <Button asChild className="mt-4 w-full" nativeButton={false}>
                       <Link to="/admissions" onClick={() => setIsOpen(false)}>Apply Online</Link>
                     </Button>
                   ) : (
                     <>
                       {isAdmin && (
-                        <Button asChild variant="outline" className="w-full">
+                        <Button asChild variant="outline" className="w-full" nativeButton={false}>
                           <Link to="/admin" onClick={() => setIsOpen(false)}>Admin Portal</Link>
                         </Button>
                       )}
@@ -240,7 +245,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div>
             <h3 className="font-bold text-white mb-4">Admin</h3>
-            <Button asChild variant="outline" size="sm" className="border-slate-700 hover:bg-slate-800 text-slate-300">
+            <Button asChild variant="outline" size="sm" className="border-slate-700 hover:bg-slate-800 text-slate-300" nativeButton={false}>
               <Link to="/admin">Staff Login</Link>
             </Button>
           </div>
