@@ -57,50 +57,51 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Navbar */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-lg shadow-sm">
-              <Sun className="text-white" size={24} />
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <div className="bg-primary p-1.5 rounded-lg shadow-sm">
+              <Sun className="text-white" size={18} />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl tracking-tight text-slate-900 leading-none">Sunshine</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Primary School</span>
+              <span className="font-bold text-base tracking-tight text-slate-900 leading-none">Sunshine</span>
+              <span className="text-[7px] uppercase tracking-[0.2em] text-primary font-bold">Primary School</span>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
-                className={`text-sm font-semibold transition-all hover:text-primary relative py-2 ${
-                  isActive(link.href) ? 'text-primary' : 'text-slate-600'
+                className={`text-[11px] xl:text-[12px] font-semibold transition-all hover:text-primary px-2 py-1.5 rounded-md whitespace-nowrap ${
+                  isActive(link.href) 
+                    ? 'text-primary bg-primary/5' 
+                    : 'text-slate-600 hover:bg-slate-50'
                 }`}
               >
                 {link.name}
-                {isActive(link.href) && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full" />
-                )}
               </Link>
             ))}
-            
+          </nav>
+
+          <div className="flex items-center gap-2 shrink-0">
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar className="h-10 w-10">
+                  <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
+                    <Avatar className="h-9 w-9">
                       <AvatarImage src={user.photoURL || ''} alt={user.displayName || ''} />
-                      <AvatarFallback>{user.displayName?.charAt(0) || <User size={20} />}</AvatarFallback>
+                      <AvatarFallback className="bg-slate-100 text-slate-600 text-xs">{user.displayName?.charAt(0) || <User size={16} />}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.displayName}</p>
-                      <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                      <p className="text-sm font-bold leading-none">{user.displayName}</p>
+                      <p className="text-xs leading-none text-slate-500">{user.email}</p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -109,79 +110,74 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       <Link to="/admin">Admin Dashboard</Link>
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuItem onClick={handleLogout}>
+                  <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild variant="default" size="sm" className="ml-4" nativeButton={false}>
+              <Button asChild variant="default" size="sm" className="hidden sm:flex h-9 px-4 text-xs font-bold uppercase tracking-wider" nativeButton={false}>
                 <Link to="/admissions">Apply Now</Link>
               </Button>
             )}
-          </nav>
 
-          {/* Mobile Nav */}
-          <div className="lg:hidden flex items-center gap-2">
-            {user && isAdmin && (
-               <Button asChild variant="outline" size="sm" className="mr-2" nativeButton={false}>
-                <Link to="/admin">Portal</Link>
-              </Button>
-            )}
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu size={24} />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <nav className="flex flex-col gap-4 mt-8">
-                  {user && (
-                    <div className="flex items-center gap-3 mb-4 p-2 bg-slate-50 rounded-xl">
-                      <Avatar className="h-10 w-10">
-                        <AvatarImage src={user.photoURL || ''} />
-                        <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-bold">{user.displayName}</span>
-                        <span className="text-xs text-muted-foreground">{user.email}</span>
+            {/* Mobile Nav Toggle */}
+            <div className="lg:hidden flex items-center">
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <Menu size={20} />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[350px]">
+                  <nav className="flex flex-col gap-2 mt-8">
+                    {user && (
+                      <div className="flex items-center gap-3 mb-6 p-3 bg-slate-50 rounded-2xl">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={user.photoURL || ''} />
+                          <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold">{user.displayName}</span>
+                          <span className="text-xs text-slate-500">{user.email}</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      to={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`text-lg font-bold px-4 py-3 rounded-xl transition-all ${
-                        isActive(link.href) 
-                          ? 'bg-primary/10 text-primary' 
-                          : 'text-slate-600 hover:bg-slate-50'
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                  {!user ? (
-                    <Button asChild className="mt-4 w-full" nativeButton={false}>
-                      <Link to="/admissions" onClick={() => setIsOpen(false)}>Apply Online</Link>
-                    </Button>
-                  ) : (
-                    <>
-                      {isAdmin && (
-                        <Button asChild variant="outline" className="w-full" nativeButton={false}>
-                          <Link to="/admin" onClick={() => setIsOpen(false)}>Admin Portal</Link>
-                        </Button>
-                      )}
-                      <Button variant="ghost" className="w-full justify-start text-destructive" onClick={() => { handleLogout(); setIsOpen(false); }}>
-                        <LogOut className="mr-2 h-4 w-4" /> Log out
+                    )}
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`text-base font-bold px-4 py-3 rounded-xl transition-all ${
+                          isActive(link.href) 
+                            ? 'bg-primary/10 text-primary' 
+                            : 'text-slate-600 hover:bg-slate-50'
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                    {!user ? (
+                      <Button asChild className="mt-6 w-full h-12 text-sm font-bold uppercase tracking-wider" nativeButton={false}>
+                        <Link to="/admissions" onClick={() => setIsOpen(false)}>Apply Online</Link>
                       </Button>
-                    </>
-                  )}
-                </nav>
-              </SheetContent>
-            </Sheet>
+                    ) : (
+                      <div className="mt-6 space-y-2">
+                        {isAdmin && (
+                          <Button asChild variant="outline" className="w-full h-12 text-sm font-bold uppercase tracking-wider" nativeButton={false}>
+                            <Link to="/admin" onClick={() => setIsOpen(false)}>Admin Portal</Link>
+                          </Button>
+                        )}
+                        <Button variant="ghost" className="w-full h-12 justify-start text-destructive font-bold" onClick={() => { handleLogout(); setIsOpen(false); }}>
+                          <LogOut className="mr-2 h-4 w-4" /> Log out
+                        </Button>
+                      </div>
+                    )}
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </header>
