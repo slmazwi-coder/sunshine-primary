@@ -1,15 +1,14 @@
 import { motion } from 'motion/react';
 import { Card, CardContent } from '@/components/ui/card';
 
+// Use URL-encoded spaces to avoid issues in some deploy environments
+const principalImg = '/images/principal/IMG_20260411_110824%20(1).jpg';
+
 export default function About() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
+        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">About Our School</h1>
           <p className="text-slate-600 max-w-3xl mx-auto text-lg">
             Sunshine Primary School is a leading independent educational institution in Matatiele, dedicated to fostering a love for learning and academic excellence.
@@ -35,12 +34,7 @@ export default function About() {
             </div>
           </div>
           <div className="rounded-2xl overflow-hidden shadow-xl">
-            <img
-              src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop"
-              alt="Classroom"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
+            <img src="/images/about/FB_IMG_1775770372555.jpg" alt="Sunshine Primary" className="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -49,12 +43,7 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             <div className="md:col-span-1">
               <div className="aspect-square rounded-2xl overflow-hidden shadow-lg border-4 border-white">
-                <img
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop"
-                  alt="Principal Mr MM Mbobo"
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
+                <img src={principalImg} alt="Principal" className="w-full h-full object-cover" />
               </div>
             </div>
             <div className="md:col-span-2">
