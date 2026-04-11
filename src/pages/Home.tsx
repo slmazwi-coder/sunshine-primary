@@ -4,75 +4,78 @@ import { ArrowRight, GraduationCap, Users, BookOpen, Award, CheckCircle2 } from 
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
+const heroImages = [
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765112246.jpg",
+    alt: "Sunshine Primary School Building"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765120541.jpg",
+    alt: "Sunshine Primary Students"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765127575.jpg",
+    alt: "School Activities"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765136481.jpg",
+    alt: "Learning Environment"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765146783.jpg",
+    alt: "Sunshine Primary Campus"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770130966.jpg",
+    alt: "Student Excellence"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770360585.jpg",
+    alt: "School Events"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770372555.jpg",
+    alt: "Classroom Learning"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770409327.jpg",
+    alt: "Sunshine Primary Community"
+  },
+  {
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770484939.jpg",
+    alt: "Bright Futures"
+  }
+];
+
 export default function Home() {
   const [currentImage, setCurrentImage] = useState(0);
-
-  const heroImages = [
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765112246.jpg",
-      alt: "Sunshine Primary School Building"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765120541.jpg",
-      alt: "Sunshine Primary Students"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765127575.jpg",
-      alt: "School Activities"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765136481.jpg",
-      alt: "Learning Environment"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765146783.jpg",
-      alt: "Sunshine Primary Campus"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770130966.jpg",
-      alt: "Student Excellence"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770360585.jpg",
-      alt: "School Events"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770372555.jpg",
-      alt: "Classroom Learning"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770409327.jpg",
-      alt: "Sunshine Primary Community"
-    },
-    {
-      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770484939.jpg",
-      alt: "Bright Futures"
-    }
-  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % heroImages.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, [heroImages.length]);
+  }, []);
 
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             <motion.img
               key={currentImage}
               src={heroImages[currentImage].url}
               alt={heroImages[currentImage].alt}
               initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 0.4, scale: 1 }}
+              animate={{ opacity: 0.7, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.src = `https://images.unsplash.com/photo-1577896851231-70ef1460011e?q=80&w=2070&auto=format&fit=crop`;
+              }}
             />
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
@@ -99,6 +102,20 @@ export default function Home() {
               </Button>
             </div>
           </motion.div>
+        </div>
+
+        {/* Hero Navigation Dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImage(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                currentImage === index ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 
