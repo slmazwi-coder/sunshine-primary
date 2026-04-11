@@ -6,45 +6,45 @@ import { Link } from 'react-router-dom';
 
 const heroImages = [
   {
-    url: '/images/hero/FB_IMG_1775765112246.jpg',
-    alt: 'Sunshine Primary School Building',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765112246.jpg",
+    alt: "Sunshine Primary School Building"
   },
   {
-    url: '/images/hero/FB_IMG_1775765120541.jpg',
-    alt: 'Sunshine Primary Students',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765120541.jpg",
+    alt: "Sunshine Primary Students"
   },
   {
-    url: '/images/hero/FB_IMG_1775765127575.jpg',
-    alt: 'School Activities',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765127575.jpg",
+    alt: "School Activities"
   },
   {
-    url: '/images/hero/FB_IMG_1775765136481.jpg',
-    alt: 'Learning Environment',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765136481.jpg",
+    alt: "Learning Environment"
   },
   {
-    url: '/images/hero/FB_IMG_1775765146783.jpg',
-    alt: 'Sunshine Primary Campus',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765146783.jpg",
+    alt: "Sunshine Primary Campus"
   },
   {
-    url: '/images/hero/FB_IMG_1775770130966.jpg',
-    alt: 'Student Excellence',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770130966.jpg",
+    alt: "Student Excellence"
   },
   {
-    url: '/images/hero/FB_IMG_1775770360585.jpg',
-    alt: 'School Events',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770360585.jpg",
+    alt: "School Events"
   },
   {
-    url: '/images/hero/FB_IMG_1775770372555.jpg',
-    alt: 'Classroom Learning',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770372555.jpg",
+    alt: "Classroom Learning"
   },
   {
-    url: '/images/hero/FB_IMG_1775770409327.jpg',
-    alt: 'Sunshine Primary Community',
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770409327.jpg",
+    alt: "Sunshine Primary Community"
   },
   {
-    url: '/images/hero/FB_IMG_1775770484939.jpg',
-    alt: 'Bright Futures',
-  },
+    url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770484939.jpg",
+    alt: "Bright Futures"
+  }
 ];
 
 export default function Home() {
@@ -67,13 +67,12 @@ export default function Home() {
               key={currentImage}
               src={heroImages[currentImage].url}
               alt={heroImages[currentImage].alt}
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
-              // Mobile: cover (looks good full-bleed)
-              // Desktop: contain (prevents cutting faces/important parts)
-              className="absolute inset-0 w-full h-full object-cover md:object-contain md:bg-slate-900"
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.7, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              className="absolute inset-0 w-full h-full object-cover"
+              referrerPolicy="no-referrer"
               onError={(e) => {
                 e.currentTarget.src = `https://images.unsplash.com/photo-1577896851231-70ef1460011e?q=80&w=2070&auto=format&fit=crop`;
               }}
@@ -83,7 +82,11 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center text-white">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
               Empowering Bright Minds for a <span className="text-white">Brighter Future</span>
             </h1>
@@ -92,17 +95,9 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="text-lg px-8" nativeButton={false}>
-                <Link to="/admissions">
-                  Apply Online <ArrowRight className="ml-2" size={20} />
-                </Link>
+                <Link to="/admissions">Apply Online <ArrowRight className="ml-2" size={20} /></Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="text-lg px-8 bg-white/10 border-white/20 hover:bg-white/20 text-white"
-                nativeButton={false}
-              >
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-white/10 border-white/20 hover:bg-white/20 text-white" nativeButton={false}>
                 <Link to="/contact">Visit Us</Link>
               </Button>
             </div>
@@ -115,7 +110,9 @@ export default function Home() {
             <button
               key={index}
               onClick={() => setCurrentImage(index)}
-              className={`w-2 h-2 rounded-full transition-all ${currentImage === index ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60'}`}
+              className={`w-2 h-2 rounded-full transition-all ${
+                currentImage === index ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60'
+              }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
@@ -131,13 +128,13 @@ export default function Home() {
               { label: 'Educators', value: '15+', icon: GraduationCap },
               { label: 'Grades', value: '1 - 7', icon: BookOpen },
               { label: 'Excellence', value: '100%', icon: Award },
-            ].map((stat) => (
+            ].map((stat, i) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                transition={{ delay: i * 0.1 }}
                 className="flex flex-col items-center"
               >
                 <div className="bg-primary/10 p-4 rounded-full mb-4">
@@ -166,25 +163,25 @@ export default function Home() {
               {
                 title: 'Quality Education',
                 desc: 'Small class sizes (A & B classes) ensure personalized attention for every learner.',
-                icon: CheckCircle2,
+                icon: CheckCircle2
               },
               {
                 title: 'Safe Environment',
                 desc: 'A secure and welcoming campus where children feel safe to explore and learn.',
-                icon: CheckCircle2,
+                icon: CheckCircle2
               },
               {
                 title: 'Holistic Growth',
                 desc: 'Beyond academics, we focus on character building, sports, and cultural activities.',
-                icon: CheckCircle2,
-              },
-            ].map((item) => (
+                icon: CheckCircle2
+              }
+            ].map((item, i) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                transition={{ delay: i * 0.1 }}
                 className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100"
               >
                 <item.icon className="text-primary mb-4" size={32} />

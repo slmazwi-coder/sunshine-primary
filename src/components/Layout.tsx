@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Phone, Mail, Facebook, LogOut, User } from 'lucide-react';
+import { Menu, X, Sun, Phone, Mail, Facebook, LogOut, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -22,8 +22,6 @@ const navLinks = [
   { name: 'News', href: '/news' },
   { name: 'Contact', href: '/contact' },
 ];
-
-const logoSrc = '/images/logo/IMG_20260411_110824 (1).jpg';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -63,9 +61,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="h-10 w-10 flex items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm border border-slate-100">
-              <img
-                src={logoSrc}
-                alt="Sunshine Primary School Logo"
+              <img 
+                src="/images/logo/logo.png" 
+                alt="Sunshine Primary School Logo" 
                 className="h-full w-full object-contain"
                 onError={(e) => {
                   // Fallback if logo is missing
@@ -90,7 +88,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 key={link.href}
                 to={link.href}
                 className={`text-[11px] xl:text-[12px] font-semibold transition-all hover:text-primary px-2 py-1.5 rounded-md whitespace-nowrap ${
-                  isActive(link.href) ? 'text-primary bg-primary/5' : 'text-slate-600 hover:bg-slate-50'
+                  isActive(link.href) 
+                    ? 'text-primary bg-primary/5' 
+                    : 'text-slate-600 hover:bg-slate-50'
                 }`}
               >
                 {link.name}
@@ -162,7 +162,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         to={link.href}
                         onClick={() => setIsOpen(false)}
                         className={`text-base font-bold px-4 py-3 rounded-xl transition-all ${
-                          isActive(link.href) ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-50'
+                          isActive(link.href) 
+                            ? 'bg-primary/10 text-primary' 
+                            : 'text-slate-600 hover:bg-slate-50'
                         }`}
                       >
                         {link.name}
@@ -179,14 +181,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             <Link to="/admin" onClick={() => setIsOpen(false)}>Admin Portal</Link>
                           </Button>
                         )}
-                        <Button
-                          variant="ghost"
-                          className="w-full h-12 justify-start text-destructive font-bold"
-                          onClick={() => {
-                            handleLogout();
-                            setIsOpen(false);
-                          }}
-                        >
+                        <Button variant="ghost" className="w-full h-12 justify-start text-destructive font-bold" onClick={() => { handleLogout(); setIsOpen(false); }}>
                           <LogOut className="mr-2 h-4 w-4" /> Log out
                         </Button>
                       </div>
@@ -199,7 +194,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {children}
+      </main>
 
       <ChatAssistant />
 
@@ -209,9 +206,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 flex items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
-                <img
-                  src={logoSrc}
-                  alt="Sunshine Primary School Logo"
+                <img 
+                  src="/images/logo/logo.png" 
+                  alt="Sunshine Primary School Logo" 
                   className="h-full w-full object-contain"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
@@ -227,14 +224,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span className="text-[9px] uppercase tracking-[0.2em] text-slate-400 font-bold">Primary School</span>
               </div>
             </div>
-            <p className="text-sm text-slate-400">Providing quality independent education from Grade 1 to Grade 7 in Matatiele.</p>
+            <p className="text-sm text-slate-400">
+              Providing quality independent education from Grade 1 to Grade 7 in Matatiele.
+            </p>
             <div className="flex gap-4">
-              <a
-                href="https://www.facebook.com/p/Sunshine-Primary-School-100054347539686/"
-                target="_blank"
-                rel="noreferrer"
-                className="text-slate-400 hover:text-white transition-colors"
-              >
+               <a href="https://www.facebook.com/p/Sunshine-Primary-School-100054347539686/" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors">
                 <Facebook size={20} />
               </a>
             </div>
