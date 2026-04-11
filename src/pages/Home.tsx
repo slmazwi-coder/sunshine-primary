@@ -9,16 +9,44 @@ export default function Home() {
 
   const heroImages = [
     {
-      url: "https://images.unsplash.com/photo-1577896851231-70ef1460011e?q=80&w=2070&auto=format&fit=crop",
-      alt: "School Building"
+      url: "/images/hero/FB_IMG_1775765112246.jpg",
+      alt: "Sunshine Primary School Building"
     },
     {
-      url: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=2070&auto=format&fit=crop",
-      alt: "Students Learning"
+      url: "/images/hero/FB_IMG_1775765120541.jpg",
+      alt: "Sunshine Primary Students"
     },
     {
-      url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2070&auto=format&fit=crop",
-      alt: "Classroom Activity"
+      url: "/images/hero/FB_IMG_1775765127575.jpg",
+      alt: "School Activities"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775765136481.jpg",
+      alt: "Learning Environment"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775765146783.jpg",
+      alt: "Sunshine Primary Campus"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775770130966.jpg",
+      alt: "Student Excellence"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775770360585.jpg",
+      alt: "School Events"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775770372555.jpg",
+      alt: "Classroom Learning"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775770409327.jpg",
+      alt: "Sunshine Primary Community"
+    },
+    {
+      url: "/images/hero/FB_IMG_1775770484939.jpg",
+      alt: "Bright Futures"
     }
   ];
 
