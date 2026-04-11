@@ -16,6 +16,7 @@ export default function Admissions() {
   const { user } = useFirebase();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [referenceNumber, setReferenceNumber] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -49,6 +50,8 @@ export default function Admissions() {
     
     setIsSubmitting(true);
     const path = 'applications';
+    const refNum = `SUN-${new Date().getFullYear()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+    
     try {
       await addDoc(collection(db, path), {
         studentName: `${formData.firstName} ${formData.lastName}`,
@@ -61,7 +64,9 @@ export default function Admissions() {
         parentUid: user?.uid || 'anonymous',
         status: 'Received',
         submittedAt: serverTimestamp(),
+        referenceNumber: refNum,
       });
+      setReferenceNumber(refNum);
       setStep(3);
       toast.success('Application submitted successfully!');
     } catch (error) {
@@ -213,8 +218,12 @@ export default function Admissions() {
               <CheckCircle2 size={48} />
             </div>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Application Received!</h2>
+            <div className="bg-slate-50 p-6 rounded-2xl mb-8 inline-block">
+              <p className="text-sm text-slate-500 uppercase tracking-wider font-bold mb-1">Your Reference Number</p>
+              <p className="text-2xl font-mono font-bold text-primary">{referenceNumber}</p>
+            </div>
             <p className="text-slate-600 mb-8">
-              Thank you for applying to Sunshine Primary School. We have received your application and will review your documents and contact you shortly.
+              Thank you for applying to Sunshine Primary School. We have received your application and will review your documents and contact you shortly. Please keep your reference number for future inquiries.
             </p>
             <Button asChild nativeButton={false}>
               <a href="/">Return to Home</a>

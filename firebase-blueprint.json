@@ -12,9 +12,10 @@
         "parentPhone": { "type": "string", "description": "Contact phone number" },
         "status": { "type": "string", "enum": ["Received", "In Review", "Accepted", "Missing Docs", "Rejected"], "description": "Current status of the application" },
         "submittedAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" },
-        "documents": { "type": "array", "description": "List of uploaded document URLs" }
+        "documents": { "type": "array", "description": "List of uploaded document URLs" },
+        "referenceNumber": { "type": "string", "description": "Unique application reference number" }
       },
-      "required": ["studentName", "grade", "parentName", "parentEmail", "status", "submittedAt"]
+      "required": ["studentName", "grade", "parentName", "parentEmail", "status", "submittedAt", "referenceNumber"]
     },
     "Payment": {
       "title": "Fee Payment",

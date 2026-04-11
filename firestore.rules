@@ -83,12 +83,13 @@ service cloud.firestore {
     }
 
     function isValidApplication(data) {
-      return hasRequiredFields(['studentName', 'grade', 'parentName', 'parentEmail', 'status', 'submittedAt', 'parentUid']) &&
+      return hasRequiredFields(['studentName', 'grade', 'parentName', 'parentEmail', 'status', 'submittedAt', 'parentUid', 'referenceNumber']) &&
              data.studentName is string && data.studentName.size() < 100 &&
              data.parentEmail is string && isValidEmail(data.parentEmail) &&
              data.status in ['Received', 'In Review', 'Accepted', 'Missing Docs', 'Rejected'] &&
              data.submittedAt is timestamp &&
-             data.parentUid is string;
+             data.parentUid is string &&
+             data.referenceNumber is string && data.referenceNumber.size() < 20;
     }
 
     function isValidPayment(data) {
