@@ -40,11 +40,7 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             <div className="md:col-span-1">
               <div className="aspect-square rounded-2xl overflow-hidden shadow-lg border-4 border-white">
-                <img
-                  src="/images/principal/IMG_20260411_110824 (1).jpg"
-                  alt="Principal"
-                  className="w-full h-full object-cover"
-                />
+                <img src="/images/principal/IMG_20260411_110824 (1).jpg" alt="Principal" className="w-full h-full object-cover" />
               </div>
             </div>
             <div className="md:col-span-2">
