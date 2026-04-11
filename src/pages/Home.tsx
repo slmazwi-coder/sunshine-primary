@@ -7,44 +7,44 @@ import { Link } from 'react-router-dom';
 const heroImages = [
   {
     url: '/images/hero/FB_IMG_1775765112246.jpg',
-    alt: 'Sunshine Primary School Building'
+    alt: 'Sunshine Primary School Building',
   },
   {
     url: '/images/hero/FB_IMG_1775765120541.jpg',
-    alt: 'Sunshine Primary Students'
+    alt: 'Sunshine Primary Students',
   },
   {
     url: '/images/hero/FB_IMG_1775765127575.jpg',
-    alt: 'School Activities'
+    alt: 'School Activities',
   },
   {
     url: '/images/hero/FB_IMG_1775765136481.jpg',
-    alt: 'Learning Environment'
+    alt: 'Learning Environment',
   },
   {
     url: '/images/hero/FB_IMG_1775765146783.jpg',
-    alt: 'Sunshine Primary Campus'
+    alt: 'Sunshine Primary Campus',
   },
   {
     url: '/images/hero/FB_IMG_1775770130966.jpg',
-    alt: 'Student Excellence'
+    alt: 'Student Excellence',
   },
   {
     url: '/images/hero/FB_IMG_1775770360585.jpg',
-    alt: 'School Events'
+    alt: 'School Events',
   },
   {
     url: '/images/hero/FB_IMG_1775770372555.jpg',
-    alt: 'Classroom Learning'
+    alt: 'Classroom Learning',
   },
   {
     url: '/images/hero/FB_IMG_1775770409327.jpg',
-    alt: 'Sunshine Primary Community'
+    alt: 'Sunshine Primary Community',
   },
   {
     url: '/images/hero/FB_IMG_1775770484939.jpg',
-    alt: 'Bright Futures'
-  }
+    alt: 'Bright Futures',
+  },
 ];
 
 export default function Home() {
@@ -67,11 +67,13 @@ export default function Home() {
               key={currentImage}
               src={heroImages[currentImage].url}
               alt={heroImages[currentImage].alt}
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
-              className="absolute inset-0 w-full h-full object-cover"
+              initial= opacity: 0, scale: 1.05 
+              animate= opacity: 1, y: 0 
+              exit= opacity: 0, scale: 0.95 
+              transition= duration: 1.2, ease: 'easeInOut' 
+              // Mobile: cover (looks good full-bleed)
+              // Desktop: contain (prevents cutting faces/important parts)
+              className="absolute inset-0 w-full h-full object-cover md:object-contain md:bg-slate-900"
               onError={(e) => {
                 e.currentTarget.src = `https://images.unsplash.com/photo-1577896851231-70ef1460011e?q=80&w=2070&auto=format&fit=crop`;
               }}
@@ -81,7 +83,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center text-white">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  transition= duration: 0.6 >
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
               Empowering Bright Minds for a <span className="text-white">Brighter Future</span>
             </h1>
@@ -132,10 +134,10 @@ export default function Home() {
             ].map((stat) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                initial= opacity: 0, y: 10 
+                whileInView= opacity: 1, y: 0 
+                viewport= once: true 
+                transition= duration: 0.5 
                 className="flex flex-col items-center"
               >
                 <div className="bg-primary/10 p-4 rounded-full mb-4">
@@ -179,10 +181,10 @@ export default function Home() {
             ].map((item) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                initial= opacity: 0, y: 20 
+                whileInView= opacity: 1, y: 0 
+                viewport= once: true 
+                transition= duration: 0.5 
                 className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100"
               >
                 <item.icon className="text-primary mb-4" size={32} />
