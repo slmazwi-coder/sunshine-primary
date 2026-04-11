@@ -9,43 +9,43 @@ export default function Home() {
 
   const heroImages = [
     {
-      url: "/images/hero/FB_IMG_1775765112246.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765112246.jpg",
       alt: "Sunshine Primary School Building"
     },
     {
-      url: "/images/hero/FB_IMG_1775765120541.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765120541.jpg",
       alt: "Sunshine Primary Students"
     },
     {
-      url: "/images/hero/FB_IMG_1775765127575.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765127575.jpg",
       alt: "School Activities"
     },
     {
-      url: "/images/hero/FB_IMG_1775765136481.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765136481.jpg",
       alt: "Learning Environment"
     },
     {
-      url: "/images/hero/FB_IMG_1775765146783.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775765146783.jpg",
       alt: "Sunshine Primary Campus"
     },
     {
-      url: "/images/hero/FB_IMG_1775770130966.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770130966.jpg",
       alt: "Student Excellence"
     },
     {
-      url: "/images/hero/FB_IMG_1775770360585.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770360585.jpg",
       alt: "School Events"
     },
     {
-      url: "/images/hero/FB_IMG_1775770372555.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770372555.jpg",
       alt: "Classroom Learning"
     },
     {
-      url: "/images/hero/FB_IMG_1775770409327.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770409327.jpg",
       alt: "Sunshine Primary Community"
     },
     {
-      url: "/images/hero/FB_IMG_1775770484939.jpg",
+      url: "https://raw.githubusercontent.com/slmazwi-coder/sunshine-primary/main/public/images/hero/FB_IMG_1775770484939.jpg",
       alt: "Bright Futures"
     }
   ];
