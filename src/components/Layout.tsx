@@ -60,8 +60,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div className="bg-primary p-1.5 rounded-lg shadow-sm">
-              <Sun className="text-white" size={18} />
+            <div className="h-10 w-10 flex items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm border border-slate-100">
+              <img 
+                src="/images/logo/logo.png" 
+                alt="Sunshine Primary School Logo" 
+                className="h-full w-full object-contain"
+                onError={(e) => {
+                  // Fallback if logo is missing
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement?.classList.add('bg-primary');
+                  const sunIcon = document.createElement('div');
+                  sunIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>';
+                  e.currentTarget.parentElement?.appendChild(sunIcon.firstChild as Node);
+                }}
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-base tracking-tight text-slate-900 leading-none">Sunshine</span>
@@ -193,8 +205,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="bg-primary p-2 rounded-lg">
-                <Sun className="text-white" size={20} />
+              <div className="h-12 w-12 flex items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
+                <img 
+                  src="/images/logo/logo.png" 
+                  alt="Sunshine Primary School Logo" 
+                  className="h-full w-full object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement?.classList.add('bg-primary');
+                    const sunIcon = document.createElement('div');
+                    sunIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>';
+                    e.currentTarget.parentElement?.appendChild(sunIcon.firstChild as Node);
+                  }}
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-lg tracking-tight text-white leading-none">Sunshine</span>
