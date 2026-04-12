@@ -55,7 +55,7 @@ export default function About() {
                 "At Sunshine Primary, we believe that every child has a unique light. Our role is to provide the environment and guidance to help that light shine brightest. We are more than just a school; we are a family dedicated to the future of our children."
               </blockquote>
               <p className="text-slate-600">
-                Mr Mbobo has led Sunshine Primary with a vision of excellence and community integration. Under his leadership, the school has grown in both size and reputation, maintaining a focus on individual learner progress and staff development.
+                Mr Mbobo has led Sunshine Primary with a vision of excellence and community integration. Under the leadership, the school has grown in both size and reputation, maintaining a focus on individual learner progress and staff development.
               </p>
             </div>
           </div>
@@ -81,9 +81,9 @@ export default function About() {
           </Card>
           <Card className="border-none shadow-sm bg-white">
             <CardContent className="pt-6">
-              <h3 className="font-bold text-lg mb-2">Grade 1 - 7</h3>
+              <h3 className="font-bold text-lg mb-2">Grade 1 - 9</h3>
               <p className="text-sm text-slate-600">
-                Our comprehensive primary education prepares learners for the transition to high school with confidence and a strong academic foundation.
+                Our comprehensive education prepares learners for the transition to the next phase with confidence and a strong academic foundation.
               </p>
             </CardContent>
           </Card>
