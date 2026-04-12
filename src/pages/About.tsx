@@ -9,12 +9,7 @@ export default function About() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial= opacity: 0, y: 20 
-          animate= opacity: 1, y: 0 
-          transition= duration: 0.6 
-          className="text-center mb-16"
-        >
+        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  transition= duration: 0.6  className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">About Our School</h1>
           <p className="text-slate-600 max-w-3xl mx-auto text-lg">
             Sunshine Primary School is a leading independent educational institution in Matatiele, dedicated to fostering a love for learning and academic excellence.
