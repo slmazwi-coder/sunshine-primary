@@ -58,10 +58,11 @@ export default function Admissions() {
     setFormData({ ...formData, grade: value });
   };
 
-  const handleFileChange = (key: UploadKey) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setUploads((prev) => ({ ...prev, [key]: file }));
-  };
+  const handleFileChange =
+    (key: UploadKey) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0] || null;
+      setUploads((prev) => ({ ...prev, [key]: file }));
+    };
 
   const handleLogin = async () => {
     try {
@@ -73,7 +74,6 @@ export default function Admissions() {
   };
 
   const uploadDocuments = async (refNum: string) => {
-    const parentUid = user?.uid || 'anonymous';
     const results: Record<string, { name: string; url: string; path: string; type: string; size: number }> = {};
 
     for (const item of uploadLabels) {
@@ -142,7 +142,12 @@ export default function Admissions() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-4xl mx-auto">
-        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
           <h1 className="text-4xl font-bold text-slate-900 mb-4">Admissions</h1>
           <p className="text-slate-600">Online applications are now open for {applicationYear}.</p>
         </motion.div>
@@ -163,7 +168,7 @@ export default function Admissions() {
         </div>
 
         {step === 1 && (
-          <motion.div initial= opacity: 0, x: 20  animate= opacity: 1, x: 0 >
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <Card>
               <CardHeader>
                 <CardTitle>Admission Requirements</CardTitle>
@@ -188,7 +193,7 @@ export default function Admissions() {
         )}
 
         {step === 2 && (
-          <motion.div initial= opacity: 0, x: 20  animate= opacity: 1, x: 0 >
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             {!user && (
               <Card className="mb-8">
                 <CardHeader>
@@ -213,11 +218,23 @@ export default function Admissions() {
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" required placeholder="Enter student's first name" value={formData.firstName} onChange={handleInputChange} />
+                    <Input
+                      id="firstName"
+                      required
+                      placeholder="Enter student's first name"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" required placeholder="Enter student's last name" value={formData.lastName} onChange={handleInputChange} />
+                    <Input
+                      id="lastName"
+                      required
+                      placeholder="Enter student's last name"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="dob">Date of Birth</Label>
@@ -231,7 +248,9 @@ export default function Admissions() {
                       </SelectTrigger>
                       <SelectContent>
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((g) => (
-                          <SelectItem key={g} value={`Grade ${g}`}>Grade {g}</SelectItem>
+                          <SelectItem key={g} value={`Grade ${g}`}>
+                            Grade {g}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -246,19 +265,45 @@ export default function Admissions() {
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="parentName">Full Name</Label>
-                    <Input id="parentName" required placeholder="Enter parent's full name" value={formData.parentName} onChange={handleInputChange} />
+                    <Input
+                      id="parentName"
+                      required
+                      placeholder="Enter parent's full name"
+                      value={formData.parentName}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="parentEmail">Email Address</Label>
-                    <Input id="parentEmail" type="email" required placeholder="email@example.com" value={formData.parentEmail} onChange={handleInputChange} />
+                    <Input
+                      id="parentEmail"
+                      type="email"
+                      required
+                      placeholder="email@example.com"
+                      value={formData.parentEmail}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="parentPhone">Phone Number</Label>
-                    <Input id="parentPhone" type="tel" required placeholder="012 345 6789" value={formData.parentPhone} onChange={handleInputChange} />
+                    <Input
+                      id="parentPhone"
+                      type="tel"
+                      required
+                      placeholder="012 345 6789"
+                      value={formData.parentPhone}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="address">Physical Address</Label>
-                    <Input id="address" required placeholder="Enter home address" value={formData.address} onChange={handleInputChange} />
+                    <Input
+                      id="address"
+                      required
+                      placeholder="Enter home address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </CardContent>
               </Card>
@@ -313,8 +358,8 @@ export default function Admissions() {
 
         {step === 3 && (
           <motion.div
-            initial= opacity: 0, scale: 0.9 
-            animate= opacity: 1, scale: 1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="text-center bg-white p-12 rounded-3xl shadow-sm border border-slate-100"
           >
             <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
