@@ -1,9 +1,9 @@
 import { motion } from 'motion/react';
 import { Card, CardContent } from '@/components/ui/card';
 
-// Use URL-encoded spaces to avoid issues in deploy environments
+// Use URL-encoded spaces/parentheses to avoid issues in deploy environments
 const aboutImg = '/images/about/FB_IMG_1775770130966.jpg';
-const principalImg = '/images/principal/IMG_20260411_110836%20(1).jpg';
+const principalImg = '/images/principal/IMG_20260411_110836%20%281%29.jpg';
 
 export default function About() {
   return (
