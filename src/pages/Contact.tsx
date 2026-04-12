@@ -8,6 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 
+const schoolAddress = 'No 7 Leach Lane, Matatiele, 4730';
+const mapsQuery = encodeURIComponent(`Sunshine Primary School, ${schoolAddress}`);
+
 export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,11 +20,7 @@ export default function Contact() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
+        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Contact Us</h1>
           <p className="text-slate-600 max-w-3xl mx-auto text-lg">
             Have questions? We're here to help. Reach out to us via phone, email, or visit our campus in Matatiele.
@@ -33,7 +32,7 @@ export default function Contact() {
           <div className="space-y-8">
             <div className="space-y-6">
               {[
-                { icon: MapPin, title: 'Physical Address', content: 'No 7 Leach Lane, Matatiele, 4730' },
+                { icon: MapPin, title: 'Physical Address', content: schoolAddress },
                 { icon: Phone, title: 'Phone Number', content: '039 737 3324' },
                 { icon: Mail, title: 'Email Address', content: 'sunshine501590@gmail.com' },
                 { icon: Clock, title: 'Office Hours', content: 'Mon - Fri: 08:00 - 15:00' },
@@ -100,19 +99,30 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Map Placeholder */}
-        <div className="mt-20 rounded-3xl overflow-hidden h-[400px] bg-slate-100 relative border border-slate-200">
-           <div className="absolute inset-0 flex items-center justify-center text-slate-400 flex-col gap-2">
-            <MapPin size={48} />
-            <p className="font-bold">Google Maps Integration</p>
-            <p className="text-sm">No 7 Leach Lane, Matatiele, 4730</p>
-            <Button asChild variant="outline" className="mt-4">
-              <a href="https://www.google.com/maps/search/No+7+Leach+Lane,+Matatiele,+4730" target="_blank" rel="noreferrer">
+        {/* Map */}
+        <div className="mt-20 rounded-3xl overflow-hidden bg-slate-100 border border-slate-200">
+          <div className="flex items-center justify-between gap-4 p-4 bg-white border-b border-slate-200">
+            <div className="flex items-center gap-2">
+              <MapPin className="text-primary" size={18} />
+              <span className="font-bold text-slate-900">Find us</span>
+              <span className="text-sm text-slate-600 hidden sm:inline">{schoolAddress}</span>
+            </div>
+            <Button asChild variant="outline" size="sm">
+              <a href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`} target="_blank" rel="noreferrer">
                 Open in Google Maps
               </a>
             </Button>
           </div>
-          {/* In a real app, you'd use an iframe or a map library here */}
+
+          <div className="h-[420px]">
+            <iframe
+              title="Sunshine Primary School Location"
+              src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
+              className="w-full h-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
         </div>
       </div>
     </div>
