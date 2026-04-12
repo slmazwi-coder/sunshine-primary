@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 
 const schoolAddress = 'No 7 Leach Lane, Matatiele, 4730';
 const mapsQuery = encodeURIComponent(`Sunshine Primary School, ${schoolAddress}`);
+const mapsSearchUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+const mapsEmbedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
 export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,7 +22,12 @@ export default function Contact() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  transition= duration: 0.6  className="text-center mb-16">
+        <motion.div
+          initial= opacity: 0, y: 20 
+          animate= opacity: 1, y: 0 
+          transition= duration: 0.6 
+          className="text-center mb-16"
+        >
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Contact Us</h1>
           <p className="text-slate-600 max-w-3xl mx-auto text-lg">
             Have questions? We're here to help. Reach out to us via phone, email, or visit our campus in Matatiele.
@@ -55,7 +62,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-400 text-sm mb-6">Stay connected with our school community on social media.</p>
-                <Button asChild variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                <Button asChild variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" nativeButton={false}>
                   <a href="https://www.facebook.com/p/Sunshine-Primary-School-100054347539686/" target="_blank" rel="noreferrer">
                     <Facebook className="mr-2" size={18} /> Facebook Page
                   </a>
@@ -90,7 +97,7 @@ export default function Contact() {
                     <Label htmlFor="message">Message</Label>
                     <Textarea id="message" required placeholder="Write your message here..." className="min-h-[150px]" />
                   </div>
-                  <Button type="submit" className="w-full h-12 text-lg">
+                  <Button type="submit" className="w-full h-12 text-lg" nativeButton={false}>
                     Send Message <Send className="ml-2" size={18} />
                   </Button>
                 </form>
@@ -107,8 +114,8 @@ export default function Contact() {
               <span className="font-bold text-slate-900">Find us</span>
               <span className="text-sm text-slate-600 hidden sm:inline">{schoolAddress}</span>
             </div>
-            <Button asChild variant="outline" size="sm">
-              <a href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`} target="_blank" rel="noreferrer">
+            <Button asChild variant="outline" size="sm" nativeButton={false}>
+              <a href={mapsSearchUrl} target="_blank" rel="noreferrer">
                 Open in Google Maps
               </a>
             </Button>
@@ -117,7 +124,7 @@ export default function Contact() {
           <div className="h-[420px]">
             <iframe
               title="Sunshine Primary School Location"
-              src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
+              src={mapsEmbedUrl}
               className="w-full h-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
