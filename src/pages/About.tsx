@@ -1,19 +1,15 @@
 import { motion } from 'motion/react';
 import { Card, CardContent } from '@/components/ui/card';
 
-// Use URL-encoded spaces to avoid issues in some deploy environments
+// Use URL-encoded spaces to avoid issues in deploy environments
+const aboutImg = '/images/about/FB_IMG_1775770130966.jpg';
 const principalImg = '/images/principal/IMG_20260411_110824%20(1).jpg';
 
 export default function About() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  transition= duration: 0.6  className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">About Our School</h1>
           <p className="text-slate-600 max-w-3xl mx-auto text-lg">
             Sunshine Primary School is a leading independent educational institution in Matatiele, dedicated to fostering a love for learning and academic excellence.
@@ -39,7 +35,7 @@ export default function About() {
             </div>
           </div>
           <div className="rounded-2xl overflow-hidden shadow-xl">
-            <img src="/images/about/FB_IMG_1775770372555.jpg" alt="Sunshine Primary" className="w-full h-full object-cover" />
+            <img src={aboutImg} alt="Sunshine Primary" className="w-full h-full object-cover" />
           </div>
         </div>
 
