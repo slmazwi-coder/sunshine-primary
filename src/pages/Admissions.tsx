@@ -7,10 +7,30 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { db, auth, handleFirestoreError, OperationType } from '../firebase';
+import { db, auth, storage, handleFirestoreError, OperationType } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useFirebase } from '../components/FirebaseProvider';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+const applicationYear = 2027;
+
+type UploadKey =
+  | 'birthCertificate'
+  | 'latestReport'
+  | 'parentId'
+  | 'proofOfResidence'
+  | 'immunizationRecord'
+  | 'transferLetter';
+
+const uploadLabels: { key: UploadKey; label: string; required?: boolean }[] = [
+  { key: 'birthCertificate', label: 'Certified copy of Learner’s Birth Certificate', required: true },
+  { key: 'latestReport', label: 'Latest School Report', required: true },
+  { key: 'parentId', label: 'Copy of Parent/Guardian ID', required: true },
+  { key: 'proofOfResidence', label: 'Proof of Residence', required: true },
+  { key: 'immunizationRecord', label: 'Immunization Record (Clinic Card)', required: false },
+  { key: 'transferLetter', label: 'Transfer Letter (if applicable)', required: false },
+];
 
 export default function Admissions() {
   const { user } = useFirebase();
@@ -28,12 +48,19 @@ export default function Admissions() {
     address: '',
   });
 
+  const [uploads, setUploads] = useState<Partial<Record<UploadKey, File | null>>>({});
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleGradeChange = (value: string) => {
     setFormData({ ...formData, grade: value });
+  };
+
+  const handleFileChange = (key: UploadKey) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setUploads((prev) => ({ ...prev, [key]: file }));
   };
 
   const handleLogin = async () => {
@@ -45,15 +72,49 @@ export default function Admissions() {
     }
   };
 
+  const uploadDocuments = async (refNum: string) => {
+    const parentUid = user?.uid || 'anonymous';
+    const results: Record<string, { name: string; url: string; path: string; type: string; size: number }> = {};
+
+    for (const item of uploadLabels) {
+      const file = uploads[item.key];
+      if (!file) {
+        if (item.required) throw new Error(`Missing required document: ${item.label}`);
+        continue;
+      }
+
+      const safeName = file.name.replace(/\s+/g, '_');
+      const path = `applications/${applicationYear}/${refNum}/${item.key}/${Date.now()}_${safeName}`;
+      const fileRef = storageRef(storage, path);
+
+      await uploadBytes(fileRef, file);
+      const url = await getDownloadURL(fileRef);
+
+      results[item.key] = {
+        name: file.name,
+        url,
+        path,
+        type: file.type,
+        size: file.size,
+      };
+    }
+
+    return results;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     setIsSubmitting(true);
     const path = 'applications';
-    const refNum = `SUN-${new Date().getFullYear()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
-    
+    const refNum = `SUN-${applicationYear}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
     try {
+      // Upload files first, then save doc URLs in Firestore
+      const documentUploads = await uploadDocuments(refNum);
+
       await addDoc(collection(db, path), {
+        applicationYear,
         studentName: `${formData.firstName} ${formData.lastName}`,
         grade: formData.grade,
         parentName: formData.parentName,
@@ -65,7 +126,9 @@ export default function Admissions() {
         status: 'Received',
         submittedAt: serverTimestamp(),
         referenceNumber: refNum,
+        documents: documentUploads,
       });
+
       setReferenceNumber(refNum);
       setStep(3);
       toast.success('Application submitted successfully!');
@@ -79,15 +142,9 @@ export default function Admissions() {
   return (
     <div className="py-20 px-4">
       <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
+        <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">Admissions</h1>
-          <p className="text-slate-600">
-            Join our community of learners. Follow the steps below to apply for the upcoming academic year.
-          </p>
+          <p className="text-slate-600">Online applications are now open for {applicationYear}.</p>
         </motion.div>
 
         {/* Steps Indicator */}
@@ -106,7 +163,7 @@ export default function Admissions() {
         </div>
 
         {step === 1 && (
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+          <motion.div initial= opacity: 0, x: 20  animate= opacity: 1, x: 0 >
             <Card>
               <CardHeader>
                 <CardTitle>Admission Requirements</CardTitle>
@@ -114,17 +171,11 @@ export default function Admissions() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-3">
-                  {[
-                    'Certified copy of Learner’s Birth Certificate',
-                    'Latest School Report',
-                    'Copy of Parent/Guardian ID',
-                    'Proof of Residence',
-                    'Immunization Record (Clinic Card)',
-                    'Transfer Letter (if applicable)'
-                  ].map((doc) => (
-                    <li key={doc} className="flex items-center gap-3 text-slate-700">
+                  {uploadLabels.map((doc) => (
+                    <li key={doc.key} className="flex items-center gap-3 text-slate-700">
                       <CheckCircle2 className="text-green-500" size={18} />
-                      {doc}
+                      {doc.label}
+                      {doc.required ? <span className="text-xs text-slate-500">(required)</span> : null}
                     </li>
                   ))}
                 </ul>
@@ -137,7 +188,23 @@ export default function Admissions() {
         )}
 
         {step === 2 && (
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+          <motion.div initial= opacity: 0, x: 20  animate= opacity: 1, x: 0 >
+            {!user && (
+              <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Login recommended</CardTitle>
+                  <CardDescription>
+                    Logging in helps us link your application to your account. You can still apply without logging in.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button type="button" variant="outline" onClick={handleLogin} className="w-full">
+                    Continue with Google
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+
             <form onSubmit={handleSubmit}>
               <Card className="mb-8">
                 <CardHeader>
@@ -163,7 +230,7 @@ export default function Admissions() {
                         <SelectValue placeholder="Select Grade" />
                       </SelectTrigger>
                       <SelectContent>
-                        {[1, 2, 3, 4, 5, 6, 7].map((g) => (
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((g) => (
                           <SelectItem key={g} value={`Grade ${g}`}>Grade {g}</SelectItem>
                         ))}
                       </SelectContent>
@@ -196,12 +263,48 @@ export default function Admissions() {
                 </CardContent>
               </Card>
 
+              <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Upload supporting documents</CardTitle>
+                  <CardDescription>Uploads are accepted as PDF or images. Please upload clear, readable copies.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {uploadLabels.map((doc) => (
+                    <div key={doc.key} className="space-y-2">
+                      <Label htmlFor={doc.key}>
+                        {doc.label} {doc.required ? '(required)' : '(optional)'}
+                      </Label>
+                      <Input
+                        id={doc.key}
+                        type="file"
+                        accept="application/pdf,image/*"
+                        required={doc.required}
+                        onChange={handleFileChange(doc.key)}
+                      />
+                      {uploads[doc.key] ? (
+                        <p className="text-xs text-slate-500 flex items-center gap-2">
+                          <Upload size={14} /> {uploads[doc.key]?.name}
+                        </p>
+                      ) : null}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
               <div className="flex gap-4">
                 <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
                   Back
                 </Button>
                 <Button type="submit" disabled={isSubmitting} className="flex-1">
-                  {isSubmitting ? <><Loader2 className="mr-2 animate-spin" /> Submitting...</> : <><Send className="mr-2" size={18} /> Submit Application</>}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 animate-spin" /> Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2" size={18} /> Submit Application
+                    </>
+                  )}
                 </Button>
               </div>
             </form>
@@ -210,8 +313,8 @@ export default function Admissions() {
 
         {step === 3 && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial= opacity: 0, scale: 0.9 
+            animate= opacity: 1, scale: 1 
             className="text-center bg-white p-12 rounded-3xl shadow-sm border border-slate-100"
           >
             <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -223,7 +326,7 @@ export default function Admissions() {
               <p className="text-2xl font-mono font-bold text-primary">{referenceNumber}</p>
             </div>
             <p className="text-slate-600 mb-8">
-              Thank you for applying to Sunshine Primary School. We have received your application and will review your documents and contact you shortly. Please keep your reference number for future inquiries.
+              Thank you for applying to Sunshine Primary School. We have received your application and will contact you shortly.
             </p>
             <Button asChild nativeButton={false}>
               <a href="/">Return to Home</a>
