@@ -67,10 +67,10 @@ export default function Home() {
               key={currentImage}
               src={heroImages[currentImage].url}
               alt={heroImages[currentImage].alt}
-              initial= opacity: 0, scale: 1.05 
-              animate= opacity: 1, scale: 1 
-              exit= opacity: 0, scale: 0.98 
-              transition= duration: 1.2, ease: 'easeInOut' 
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
               className="absolute inset-0 w-full h-full object-cover md:object-contain md:bg-slate-900"
               onError={(e) => {
                 e.currentTarget.src = `https://images.unsplash.com/photo-1577896851231-70ef1460011e?q=80&w=2070&auto=format&fit=crop`;
@@ -81,7 +81,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center text-white">
-          <motion.div initial= opacity: 0, y: 20  animate= opacity: 1, y: 0  transition= duration: 0.6 >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
               Empowering Bright Minds for a <span className="text-white">Brighter Future</span>
             </h1>
@@ -132,10 +132,10 @@ export default function Home() {
             ].map((stat) => (
               <motion.div
                 key={stat.label}
-                initial= opacity: 0, y: 10 
-                whileInView= opacity: 1, y: 0 
-                viewport= once: true 
-                transition= duration: 0.5 
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
                 className="flex flex-col items-center"
               >
                 <div className="bg-primary/10 p-4 rounded-full mb-4">
@@ -179,10 +179,10 @@ export default function Home() {
             ].map((item) => (
               <motion.div
                 key={item.title}
-                initial= opacity: 0, y: 20 
-                whileInView= opacity: 1, y: 0 
-                viewport= once: true 
-                transition= duration: 0.5 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
                 className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100"
               >
                 <item.icon className="text-primary mb-4" size={32} />
